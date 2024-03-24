@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.Assert;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -37,6 +39,13 @@ public class TaxFormControllerTest extends AbstractControllerTest {
     private final TaxFormDetailsRequest taxFormDetailsRequest = TaxFormDetailsRequest.builder()
             .ratio(0.5)
             .assessedValue(100)
+            .appraisedValue(1000L)
+            .comments("testing")
+            .build();
+
+    private final TaxFormDetailsRequest taxFormDetailsRequestInvalidFields = TaxFormDetailsRequest.builder()
+            .ratio(2.0)
+            .assessedValue(1000000)
             .appraisedValue(1000L)
             .comments("testing")
             .build();
@@ -94,5 +103,16 @@ public class TaxFormControllerTest extends AbstractControllerTest {
                         .content(objectMapper.writeValueAsString(taxFormDetailsRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testSaveHandlesInvalidFields() throws Exception {
+        ResultActions resultActions = mockMvc.perform(patch(Endpoints.FORMS + "/" + taxFormDto.getId())
+                        .content(objectMapper.writeValueAsString(taxFormDetailsRequestInvalidFields))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        String responseString = resultActions.andReturn().getResponse().getContentAsString();
+        Assert.notNull(responseString, "Random message");
     }
 }

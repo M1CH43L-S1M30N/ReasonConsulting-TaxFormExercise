@@ -16,10 +16,10 @@ public class TaxFormRequestValidator {
     private String exceptionMessage = "";
 
     public TaxFormRequestValidator(TaxFormDetailsRequest taxFormDetailsRequest) {
-        this.assessedValue = taxFormDetailsRequest.assessedValue;
-        this.appraisedValue = taxFormDetailsRequest.appraisedValue;
-        this.ratio = taxFormDetailsRequest.ratio;
-        this.comments = taxFormDetailsRequest.comments;
+        this.assessedValue = taxFormDetailsRequest.getAssessedValue();
+        this.appraisedValue = taxFormDetailsRequest.getAppraisedValue();
+        this.ratio = taxFormDetailsRequest.getRatio();
+        this.comments = taxFormDetailsRequest.getComments();
     }
 
     public String validate() {

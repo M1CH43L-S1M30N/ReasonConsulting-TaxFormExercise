@@ -6,6 +6,7 @@ import consulting.reason.tax_forms_api.dto.TaxFormDto;
 import consulting.reason.tax_forms_api.dto.request.TaxFormDetailsRequest;
 import consulting.reason.tax_forms_api.entity.TaxForm;
 import consulting.reason.tax_forms_api.enums.TaxFormStatus;
+import consulting.reason.tax_forms_api.exception.TaxFormInvalidFieldsException;
 import consulting.reason.tax_forms_api.exception.TaxFormStatusException;
 import consulting.reason.tax_forms_api.repository.TaxFormRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,13 @@ public class TaxFormServiceTest extends AbstractServiceTest {
     private final TaxFormDetailsRequest taxFormDetailsRequest = TaxFormDetailsRequest.builder()
             .ratio(0.5)
             .assessedValue(100)
+            .appraisedValue(200L)
+            .comments("Testing")
+            .build();
+
+    private final TaxFormDetailsRequest taxFormDetailsRequestInvalidFields = TaxFormDetailsRequest.builder()
+            .ratio(0.5)
+            .assessedValue(1000000)
             .appraisedValue(200L)
             .comments("Testing")
             .build();

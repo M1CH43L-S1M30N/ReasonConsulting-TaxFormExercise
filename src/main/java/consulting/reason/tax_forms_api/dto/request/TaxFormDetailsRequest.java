@@ -9,9 +9,8 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode
 public class TaxFormDetailsRequest {
-    // Make fields public to access for validation
-    public Integer assessedValue;
-    public Long appraisedValue;
-    public Double ratio;
-    public String comments;
+    private Integer assessedValue;
+    private Long appraisedValue;
+    private Double ratio;
+    private String comments;
 }
